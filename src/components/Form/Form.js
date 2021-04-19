@@ -7,7 +7,7 @@ import { CSSTransition } from 'react-transition-group';
 import fadeNotification from '../../fadeNotification.module.css';
 import Notification from '../Notification';
 import { connect } from 'react-redux';
-import * as contactsAction from '../../redux/contacts/contacts-actions'
+import contactsOperations from '../../redux/contacts/contacts-operations'
 
 class Form extends Component {
   state = {
@@ -106,7 +106,7 @@ const mapStateToProps = (state) => ({
   })
 
 const mapDispatchToProps = dispatch => ({
- onAddContacts: (newContacts) => { dispatch(contactsAction.contactAdd(newContacts)) },
+ onAddContacts: (newContacts) => { dispatch(contactsOperations.contactAdd(newContacts)) },
 })
 
 export default connect(mapStateToProps , mapDispatchToProps)(Form);

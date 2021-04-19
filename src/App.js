@@ -8,7 +8,11 @@ import Container from './components/Container/Container';
 import { CSSTransition } from 'react-transition-group';
 import fadeFindContacts from './fadeFindContacts.module.css';
 import * as contactsAction from './redux/contacts/contacts-actions';
+import contactsOperations from './redux/contacts/contacts-operations';
 import { connect } from 'react-redux';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:4040';
 
 class App extends Component {
   state = {
@@ -16,20 +20,10 @@ class App extends Component {
     alert: null
   };
 
-   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parseContacts = JSON.parse(contacts);
-      
-      if (parseContacts) {
-        this.props.onParseContacts(parseContacts);
-      }
+  componentDidMount() {
+    this.props.onParseContacts();
   };
-  
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.contacts !== prevProps.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.props.contacts))
-    }
-  }
+
 
   inputFindId = shortid.generate();
 
@@ -80,16 +74,16 @@ class App extends Component {
       </>
     );
   }
-}
+};
 
 const mapStateToProps = (state) => ({
-    contacts: state.contacts.items,
-    filter: state.contacts.filter
-  })
+  contacts: state.contacts.items,
+  filter: state.contacts.filter
+});
 
-    const mapDispatchToProps = (dispatch) => ({
-      onParseContacts: (contacts) => { dispatch(contactsAction.contactsParse(contacts)) },
-      onFilterContacts: (filter) => {dispatch(contactsAction.contactFilter(filter))}
-    })
+const mapDispatchToProps = (dispatch) => ({
+  onParseContacts: () => { dispatch(contactsOperations.contactsParse()) },
+  onFilterContacts: (filter) => { dispatch(contactsAction.contactFilter(filter)) }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

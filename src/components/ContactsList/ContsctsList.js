@@ -4,7 +4,7 @@ import './fade.css'
 import Button from '../Button/Button';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import * as contactsAction from '../../redux/contacts/contacts-actions'
+import contactsOperations from '../../redux/contacts/contacts-operations';
 
  const ContactsList = ({ contacts, onDeleteContact }) => {
   return (
@@ -52,7 +52,7 @@ const mapStateToProps = ({contacts: {items, filter}}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-onDeleteContact: (id) => {dispatch(contactsAction.contactDelete(id))}
+onDeleteContact: (id) => {dispatch(contactsOperations.contactDelete(id))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
