@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Section from './components/Section/Section';
-import ContactsList from './components/ContactsList/ContsctsList';
+import ContactsList from './components/ContactsList/ContactsList.container';
 import Form from './components/Form/Form';
 import shortid from 'shortid';
 import Input from './components/Input/Input';
@@ -8,7 +8,8 @@ import Container from './components/Container/Container';
 import { CSSTransition } from 'react-transition-group';
 import fadeFindContacts from './fadeFindContacts.module.css';
 import * as contactsAction from './redux/contacts/contacts-actions';
-import contactsOperations from './redux/contacts/contacts-operations';
+import { contactsParse } from './redux/contacts/contacts-operations';
+import { getFilter, getContacts } from './redux/contacts/contacts-selectors';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -77,12 +78,12 @@ class App extends Component {
 };
 
 const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
-  filter: state.contacts.filter
+  contacts: getContacts(state),
+  filter: getFilter(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onParseContacts: () => { dispatch(contactsOperations.contactsParse()) },
+  onParseContacts: () => { dispatch(contactsParse()) },
   onFilterContacts: (filter) => { dispatch(contactsAction.contactFilter(filter)) }
 });
 

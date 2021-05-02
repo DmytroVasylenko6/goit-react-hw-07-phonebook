@@ -7,7 +7,8 @@ import { CSSTransition } from 'react-transition-group';
 import fadeNotification from '../../fadeNotification.module.css';
 import Notification from '../Notification';
 import { connect } from 'react-redux';
-import contactsOperations from '../../redux/contacts/contacts-operations'
+import { contactAdd } from '../../redux/contacts/contacts-operations';
+import { getVisibleContacts } from '../../redux/contacts/contacts-selectors';
 
 class Form extends Component {
   state = {
@@ -102,11 +103,11 @@ class Form extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    contacts: state.contacts.items,
+    contacts: getVisibleContacts(state)
   })
 
 const mapDispatchToProps = dispatch => ({
- onAddContacts: (newContacts) => { dispatch(contactsOperations.contactAdd(newContacts)) },
+ onAddContacts: (newContacts) => { dispatch(contactAdd(newContacts)) },
 })
 
 export default connect(mapStateToProps , mapDispatchToProps)(Form);
